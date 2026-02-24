@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Editorial Poster | 极致图文海报</title>
+    <!-- PWA 桌面化配置 -->
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Long+Cang&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+KuaiLe&family=Liu+Jian+Mao+Cao&family=Zhi+Mang+Xing&display=swap" rel="stylesheet" crossorigin="anonymous">
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: 'Noto Sans SC', sans-serif;
+        overflow-x: hidden;
+      }
+      .font-serif-sc { font-family: 'Noto Serif SC', serif; }
+      .font-sans-sc { font-family: 'Noto Sans SC', sans-serif; }
+      .font-mashan { font-family: 'Ma Shan Zheng', cursive; }
+      .font-xiaowei { font-family: 'ZCOOL XiaoWei', serif; }
+      .font-longcang { font-family: 'Long Cang', cursive; }
+      .font-huangyou { font-family: 'ZCOOL QingKe HuangYou', cursive; }
+      .font-kuaile { font-family: 'ZCOOL KuaiLe', cursive; }
+      .font-maocao { font-family: 'Liu Jian Mao Cao', cursive; }
+      .font-zhimang { font-family: 'Zhi Mang Xing', cursive; }
+
+      * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* 隐藏滚动条但保留功能 */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      @media print {
+        .no-print { display: none !important; }
+        .print-break-after { page-break-after: always; }
+      }
+
+      /* 动画效果 */
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-slide-up {
+        animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* Writing mode utility */
+      .vertical-text {
+        writing-mode: vertical-rl;
+      }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+        "react/": "https://esm.sh/react@^19.2.4/",
+        "react": "https://esm.sh/react@^19.2.4",
+        "html-to-image": "https://esm.sh/html-to-image@1.11.11"
+      }
+    }
+    </script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
