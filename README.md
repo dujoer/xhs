@@ -1,20 +1,7 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 小红书图文带货工作台
 
-# Run and deploy your AI Studio app
+纯前端单页应用，数据保存在浏览器 localStorage。
 
-This contains everything you need to run your app locally.
+模块：选品库 / 笔记排期+数据 / 标题选题库 / 收益看板 / 对标爆款库 / 今天发什么 / 数据透视 / 图文带货实战手册。
 
-View your app in AI Studio: https://ai.studio/apps/0ba95eb0-ca4e-4fd3-8779-292058c17693
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+部署：GitHub Pages（Settings → Pages → Source: main 分支 / root）。

@@ -1,75 +1,1157 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Editorial Poster | 极致图文海报</title>
-    <!-- PWA 桌面化配置 -->
-    <meta name="theme-color" content="#121212">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Long+Cang&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+KuaiLe&family=Liu+Jian+Mao+Cao&family=Zhi+Mang+Xing&display=swap" rel="stylesheet" crossorigin="anonymous">
-    <style>
-      body {
-        background-color: #f8f9fa;
-        font-family: 'Noto Sans SC', sans-serif;
-        overflow-x: hidden;
-      }
-      .font-serif-sc { font-family: 'Noto Serif SC', serif; }
-      .font-sans-sc { font-family: 'Noto Sans SC', sans-serif; }
-      .font-mashan { font-family: 'Ma Shan Zheng', cursive; }
-      .font-xiaowei { font-family: 'ZCOOL XiaoWei', serif; }
-      .font-longcang { font-family: 'Long Cang', cursive; }
-      .font-huangyou { font-family: 'ZCOOL QingKe HuangYou', cursive; }
-      .font-kuaile { font-family: 'ZCOOL KuaiLe', cursive; }
-      .font-maocao { font-family: 'Liu Jian Mao Cao', cursive; }
-      .font-zhimang { font-family: 'Zhi Mang Xing', cursive; }
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我的个人工作台</title>
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --bg-grad: radial-gradient(1200px 600px at 80% -10%, #ffe9d6 0%, transparent 60%),
+               radial-gradient(900px 500px at -10% 10%, #dcefff 0%, transparent 55%),
+               #f6f4ef;
+    --card: #ffffff;
+    --card-soft: #fbfaf7;
+    --text: #2c2a26;
+    --text-soft: #8a857c;
+    --line: #ece8e1;
+    --accent: #ff8a5b;
+    --accent-2: #4aa8c0;
+    --good: #5bb98c;
+    --warn: #e6a23c;
+    --shadow: 0 8px 30px rgba(60, 50, 40, 0.08);
+    --radius: 20px;
+  }
+  [data-theme="dark"] {
+    --bg: #16161a;
+    --bg-grad: radial-gradient(1200px 600px at 80% -10%, #3a2a22 0%, transparent 60%),
+               radial-gradient(900px 500px at -10% 10%, #1d2b33 0%, transparent 55%),
+               #16161a;
+    --card: #212128;
+    --card-soft: #1c1c22;
+    --text: #ece9e3;
+    --text-soft: #9a958c;
+    --line: #2e2e36;
+    --accent: #ff9a6b;
+    --accent-2: #5bbfd8;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: var(--bg-grad);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    transition: background .3s, color .3s;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 22px 60px; }
 
-      * {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      /* 隐藏滚动条但保留功能 */
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      
-      @media print {
-        .no-print { display: none !important; }
-        .print-break-after { page-break-after: always; }
-      }
+  /* Header */
+  header.top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 26px;
+  }
+  .greet h1 { margin: 0; font-size: 26px; font-weight: 750; letter-spacing: .3px; }
+  .greet .sub { margin-top: 4px; color: var(--text-soft); font-size: 14px; }
+  .greet .clock { font-variant-numeric: tabular-nums; font-weight: 650; color: var(--accent-2); }
+  .top-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--text);
+    padding: 9px 14px; border-radius: 12px; cursor: pointer; font-size: 13.5px;
+    transition: transform .12s, box-shadow .2s, background .2s; font-weight: 600;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn.ghost { background: transparent; }
 
-      /* 动画效果 */
-      @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      .animate-slide-up {
-        animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      }
+  /* Grid */
+  .grid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .card {
+    background: var(--card); border-radius: var(--radius); padding: 20px;
+    box-shadow: var(--shadow); border: 1px solid var(--line);
+    display: flex; flex-direction: column; min-height: 0;
+  }
+  .card h2 {
+    margin: 0 0 14px; font-size: 15.5px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card h2 .ic { font-size: 18px; }
+  .card h2 .meta { margin-left: auto; font-size: 12.5px; color: var(--text-soft); font-weight: 600; }
 
-      /* Writing mode utility */
-      .vertical-text {
-        writing-mode: vertical-rl;
-      }
-    </style>
-    <script type="importmap">
-    {
-      "imports": {
-        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-        "react/": "https://esm.sh/react@^19.2.4/",
-        "react": "https://esm.sh/react@^19.2.4",
-        "html-to-image": "https://esm.sh/html-to-image@1.11.11"
-      }
-    }
-    </script>
-  <link rel="stylesheet" href="/index.css">
+  .col-4 { grid-column: span 4; }
+  .col-6 { grid-column: span 6; }
+  .col-8 { grid-column: span 8; }
+  .col-12 { grid-column: span 12; }
+  @media (max-width: 900px) {
+    .col-4, .col-6, .col-8 { grid-column: span 12; }
+  }
+
+  /* (generic modules removed: todo/focus/habits/quote) */
+
+  .todo-input, .add-row input, .add-row select, textarea, .focus-input {
+    width: 100%; border: 1px solid var(--line); background: var(--card-soft);
+    color: var(--text); border-radius: 12px; padding: 10px 12px; font-size: 14px;
+    font-family: inherit; outline: none; transition: border .2s;
+  }
+  .todo-input:focus, .add-row input:focus, textarea:focus, .focus-input:focus { border-color: var(--accent); }
+  .todo-list { list-style: none; margin: 12px 0 0; padding: 0; overflow-y: auto; max-height: 230px; }
+  .todo-list li { display: flex; align-items: center; gap: 10px; padding: 9px 4px; border-bottom: 1px dashed var(--line); }
+  .todo-list li:last-child { border-bottom: none; }
+  .chk { width: 19px; height: 19px; border-radius: 6px; border: 2px solid var(--text-soft);
+    flex: none; cursor: pointer; display: grid; place-items: center; font-size: 12px; color: #fff; transition: .15s; }
+  .chk.done { background: var(--good); border-color: var(--good); }
+  .todo-text { flex: 1; font-size: 14px; }
+  .todo-text.done { text-decoration: line-through; color: var(--text-soft); }
+  .del { color: var(--text-soft); cursor: pointer; border: none; background: none; font-size: 15px; padding: 2px 6px; border-radius: 8px; }
+  .del:hover { color: var(--accent); background: var(--card-soft); }
+  .empty { color: var(--text-soft); font-size: 13px; text-align: center; padding: 14px 0; }
+
+  /* Focus */
+  .focus-item { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .focus-input { flex: 1; }
+  .add-row { display: flex; gap: 8px; margin-top: 6px; }
+  .add-row input.flex { flex: 1; }
+
+  /* Expense */
+  .exp-sum { display: flex; gap: 18px; margin-bottom: 14px; }
+  .exp-sum .box { flex: 1; }
+  .exp-sum .box .n { font-size: 22px; font-weight: 750; }
+  .exp-sum .box .l { font-size: 12px; color: var(--text-soft); }
+  .bars { display: flex; align-items: flex-end; gap: 8px; height: 90px; margin: 8px 0 4px; }
+  .bars .b { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%; }
+  .bars .b .fill { width: 70%; background: var(--accent-2); border-radius: 6px 6px 0 0; min-height: 2px; transition: height .3s; }
+  .bars .b .lab { font-size: 10.5px; color: var(--text-soft); }
+
+  /* (generic life modules removed: mood/reading/todo/focus/habits/quote) */
+
+  /* Tools */
+  .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 12px; }
+  .tool { text-align: center; cursor: pointer; text-decoration: none; color: var(--text); border: none; background: none; }
+  .tool .em { width: 52px; height: 52px; margin: 0 auto 6px; border-radius: 16px; background: var(--card-soft);
+    border: 1px solid var(--line); display: grid; place-items: center; font-size: 24px; transition: .15s; }
+  .tool:hover .em { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent); }
+  .tool .nm { font-size: 12px; color: var(--text-soft); }
+  .tool .x { display: none; }
+
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .stat { background: var(--card-soft); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .stat .n { font-size: 24px; font-weight: 780; }
+  .stat .l { font-size: 12.5px; color: var(--text-soft); margin-top: 4px; }
+  @media (max-width: 680px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Product library */
+  .prod { display: flex; gap: 10px; align-items: center; padding: 9px 4px; border-bottom: 1px dashed var(--line); font-size: 13.5px; }
+  .prod:last-child { border-bottom: none; }
+  .prod .t { font-weight: 650; flex: 1; }
+  .prod .c { color: var(--good); font-weight: 700; font-size: 12.5px; }
+  .badge { font-size: 11px; padding: 2px 9px; border-radius: 20px; background: var(--card-soft); border: 1px solid var(--line); color: var(--text-soft); }
+  .badge.on { color: var(--good); border-color: var(--good); background: #e8f6ee; }
+
+  /* Notes */
+  .note { padding: 10px 4px; border-bottom: 1px dashed var(--line); }
+  .note:last-child { border-bottom: none; }
+  .note .nt { font-weight: 650; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .note .st { font-size: 11px; padding: 1px 8px; border-radius: 20px; }
+  .st.draft { color: var(--text-soft); background: var(--card-soft); }
+  .st.ready { color: var(--warn); background: #fff3e0; }
+  .st.pub { color: var(--good); background: #e8f6ee; }
+  .note .nm { font-size: 12px; color: var(--text-soft); margin-top: 5px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+  /* Title library */
+  .title-item { display: flex; gap: 8px; align-items: center; padding: 8px 4px; border-bottom: 1px dashed var(--line); font-size: 13.5px; }
+  .title-item:last-child { border-bottom: none; }
+  .title-item .tx { flex: 1; }
+  .tag { font-size: 11px; padding: 2px 9px; border-radius: 20px; cursor: pointer; border: 1px solid var(--line); }
+  .tag.todo { background: var(--card-soft); color: var(--text-soft); }
+  .tag.used { background: #e8f1fb; color: var(--accent-2); border-color: var(--accent-2); }
+  .tag.hot { background: #fdeee6; color: var(--accent); border-color: var(--accent); }
+
+  /* Benchmark library */
+  .bench { display: flex; gap: 10px; align-items: flex-start; padding: 10px 4px; border-bottom: 1px dashed var(--line); font-size: 13px; }
+  .bench:last-child { border-bottom: none; }
+  .bench .bt { font-weight: 650; flex: 1; }
+  .bench .bt a { color: var(--accent-2); text-decoration: none; word-break: break-all; }
+  .bench .bt a:hover { text-decoration: underline; }
+  .bench .br { font-size: 12px; color: var(--text-soft); margin-top: 3px; line-height: 1.5; }
+  .bench .copied { font-size: 11px; color: var(--good); margin-left: 6px; }
+  .api-box { font-size: 12.5px; }
+
+  /* Recommend */
+  .rec { display: flex; gap: 10px; align-items: center; padding: 11px 4px; border-bottom: 1px dashed var(--line); font-size: 13.5px; }
+  .rec:last-child { border-bottom: none; }
+  .rec .rt { flex: 1; }
+  .rec .rt .rs { font-size: 11px; color: var(--text-soft); margin-top: 3px; }
+
+  /* Insights */
+  .ins-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .ins-stat { background: var(--card-soft); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+  .ins-stat .n { font-size: 20px; font-weight: 750; }
+  .ins-stat .l { font-size: 11.5px; color: var(--text-soft); margin-top: 3px; }
+  @media (max-width: 680px) { .ins-stats { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Modal */
+  .modal { position: fixed; inset: 0; background: rgba(40,35,30,.45); display: none; align-items: center; justify-content: center; z-index: 60; }
+  .modal.show { display: flex; }
+  .modal-box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; width: 460px; max-width: 92vw; box-shadow: var(--shadow); }
+  .modal-box h3 { margin: 0 0 12px; font-size: 16px; }
+  .modal-box .row { margin-bottom: 12px; }
+  .modal-box .row label { display: block; font-size: 12.5px; color: var(--text-soft); margin-bottom: 5px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+
+  .foot { text-align: center; color: var(--text-soft); font-size: 12px; margin-top: 30px; }
+  /* Playbook */
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .tab { border: 1px solid var(--line); background: var(--card-soft); color: var(--text-soft);
+    padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 600; transition: .15s; }
+  .tab.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .pb-panel { display: none; }
+  .pb-panel.on { display: block; }
+  .pb-panel h3 { margin: 2px 0 12px; font-size: 14.5px; }
+  .pb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px; }
+  @media (max-width: 760px) { .pb-grid { grid-template-columns: 1fr; } }
+  .pb-card { background: var(--card-soft); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+  .pb-card h4 { margin: 0 0 8px; font-size: 13.5px; color: var(--accent); }
+  .pb-card ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.75; }
+  .pb-card li { margin-bottom: 5px; }
+  .pb-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .pb-table th, .pb-table td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
+  .pb-table th { background: var(--card-soft); font-weight: 700; }
+  .pb-flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; }
+  .pb-flow .step { background: var(--card-soft); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; font-weight: 600; }
+  .pb-flow .arr { color: var(--accent); font-weight: 700; }
+  .pb-note { font-size: 12px; color: var(--text-soft); margin-top: 10px; line-height: 1.6; }
+  .copy-tag { display: inline-block; font-size: 11px; color: var(--good); border: 1px solid var(--good); border-radius: 10px; padding: 0 7px; margin-left: 6px; vertical-align: middle; }
+
+  ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+</style>
 </head>
-  <body>
-    <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="greet">
+      <h1 id="greet">你好 👋</h1>
+      <div class="sub"><span id="date"></span> · <span class="clock" id="clock"></span></div>
+    </div>
+    <div class="top-actions">
+      <button class="btn ghost" id="importDataBtn">📥 导入数据</button>
+      <button class="btn ghost" id="exportBtn">导出备份</button>
+      <button class="btn ghost" id="importBtn">导入备份</button>
+      <button class="btn" id="themeBtn">🌙 深色</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none" />
+    </div>
+  </header>
+
+  <div class="grid">
+    <!-- Stats overview -->
+    <section class="card col-12">
+      <h2><span class="ic">📊</span> 本周一览 <span class="meta" id="statWeek"></span></h2>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <!-- 图文带货实战手册 -->
+    <section class="card col-12">
+      <h2><span class="ic">📚</span> 图文带货实战手册 <span class="meta">可抄的方法论 · 对照练习</span></h2>
+      <div class="tabs" id="pbTabs">
+        <button class="tab on" data-tab="flow">流程</button>
+        <button class="tab" data-tab="cover">封面</button>
+        <button class="tab" data-tab="title">标题</button>
+        <button class="tab" data-tab="body">正文</button>
+        <button class="tab" data-tab="pick">选品</button>
+        <button class="tab" data-tab="bench">对标拆解</button>
+        <button class="tab" data-tab="tag">标签</button>
+        <button class="tab" data-tab="data">数据</button>
+        <button class="tab" data-tab="risk">避坑</button>
+      </div>
+      <div class="pb-panels" id="pbPanels">
+        <div class="pb-panel on" data-panel="flow">
+          <h3>图文带货完整链路</h3>
+          <div class="pb-flow">
+            <span class="step">① 选品</span><span class="arr">→</span>
+            <span class="step">② 选题</span><span class="arr">→</span>
+            <span class="step">③ 做图</span><span class="arr">→</span>
+            <span class="step">④ 写文案</span><span class="arr">→</span>
+            <span class="step">⑤ 发布</span><span class="arr">→</span>
+            <span class="step">⑥ 看数据</span><span class="arr">→</span>
+            <span class="step">⑦ 复制爆款</span>
+          </div>
+          <div class="pb-grid" style="margin-top:14px">
+            <div class="pb-card"><h4>每一步做什么</h4><ul>
+              <li><b>选品</b>：蒲公英 / 选品中心，挑高佣金、体验分高、有爆文的产品</li>
+              <li><b>选题</b>：搜核心词看高赞在聊啥，挖痛点与长尾词</li>
+              <li><b>做图</b>：3:4 竖版，一张图一个主体，对比图最吸睛</li>
+              <li><b>写文案</b>：4 段式（经历→痛点→解法→行动）</li>
+              <li><b>发布</b>：黄金时段 + 精准标签（≤5 个）</li>
+              <li><b>看数据</b>：盯 CTR 与互动率，达标再放大</li>
+              <li><b>复制</b>：把跑赢的选题 / 封面 / 结构沉淀成模板</li>
+            </ul></div>
+            <div class="pb-card"><h4>新手起号节奏</h4><ul>
+              <li>先发 <b>3 篇测试笔记</b>，达标再生产，别盲目日更</li>
+              <li>前 5 篇标签要一致，垂直度 ≥70%</li>
+              <li>每周 3–5 篇，48h 内回评，互动留存 &gt;60%</li>
+              <li>每天刷同行并点赞，3 天平台会推更多同行</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="pb-panel" data-panel="cover">
+          <h3>爆款封面公式 <span class="copy-tag">可抄</span></h3>
+          <table class="pb-table">
+            <tr><th>品类</th><th>封面公式</th><th>案例</th></tr>
+            <tr><td>美妆护肤</td><td>对比图 + 文字标签</td><td>左脸瑕疵 vs 右脸遮瑕，配「油痘肌救星」</td></tr>
+            <tr><td>穿搭</td><td>全身搭配 + 显瘦标记</td><td>梨形身材试穿，显瘦部位箭头标注</td></tr>
+            <tr><td>家居</td><td>场景图 + 箭头指示</td><td>凌乱卧室 vs 整洁，箭头指收纳神器</td></tr>
+            <tr><td>知识 / 干货</td><td>白底黑字 + 重点标红</td><td>「月瘦10斤饮食表」，关键数字标红</td></tr>
+          </table>
+          <div class="pb-grid" style="margin-top:14px">
+            <div class="pb-card"><h4>通用 4 要素</h4><ul>
+              <li><b>主体突出</b>：一个封面只聚焦一个核心元素，靠近镜头</li>
+              <li><b>文案点睛</b>：白底黑字 / 黄底黑字，戳「干货 / 避坑 / 新手」</li>
+              <li><b>画质精美</b>：自然光、中心构图，美食暖调 / 护肤冷调</li>
+              <li><b>对比强烈</b>：Before / After 制造冲击（护肤 / 健身 / 家居）</li>
+            </ul></div>
+            <div class="pb-card"><h4>规格与红线</h4><ul>
+              <li>比例 <b>3:4 竖版</b>；文字 ≤ 封面 1/3 面积</li>
+              <li>重点信息放<b>上半部</b>，避免被头像遮挡</li>
+              <li>别过度美颜 / 网图，用户觉得不真实</li>
+              <li>首图加 2–3 个关键词标签，增强搜索匹配</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="pb-panel" data-panel="title">
+          <h3>爆款标题公式 <span class="copy-tag">可抄</span></h3>
+          <table class="pb-table">
+            <tr><th>类型</th><th>公式</th><th>实例</th></tr>
+            <tr><td>数字型</td><td>具体数字 + 效果承诺</td><td>「3个技巧让脱发减少80%」</td></tr>
+            <tr><td>痛点型</td><td>人群 + 问题 + 解法</td><td>「油痘肌必看！3步拯救反复长痘」</td></tr>
+            <tr><td>结果型</td><td>结果 + 时间周期</td><td>「喝它一周，痘痘全消了」</td></tr>
+            <tr><td>悬念型</td><td>好奇 + 价值暗示</td><td>「这个10元小物让化妆台整洁10倍」</td></tr>
+            <tr><td>对比型</td><td>前后对比 + 惊讶</td><td>「原来以前都错了！这样洗脸毛孔小一半」</td></tr>
+            <tr><td>颠覆型</td><td>反常识 + 性价比</td><td>「别买贵了！30块防晒霜暴打大牌」</td></tr>
+          </table>
+          <div class="pb-note">技巧：加数字提质感；用「必看 / 救命 / 神器」情绪词；避免「震惊 / 99%人不知道」标题党；把核心关键词写进标题利于搜索。</div>
+        </div>
+        <div class="pb-panel" data-panel="body">
+          <h3>正文黄金结构 <span class="copy-tag">可抄</span></h3>
+          <div class="pb-grid">
+            <div class="pb-card"><h4>4 段式写法</h4><ul>
+              <li><b>① 经历引入</b>：用「我」建立真实信任（我是混油皮…）</li>
+              <li><b>② 痛点放大</b>：引发共鸣（试过很多都卡粉…）</li>
+              <li><b>③ 产品解法</b>：核心卖点（直到遇见XX，持妆8h）</li>
+              <li><b>④ 效果 + 行动</b>：促成转化（链接放左下角啦）</li>
+            </ul></div>
+            <div class="pb-card"><h4>比例 &amp; 细节</h4><ul>
+              <li>高转化内容 ≈ <b>30%干货 + 50%场景 + 20%互动</b></li>
+              <li>开头黄金前 20 字直击痛点</li>
+              <li>多用「我」少用「产品」；写强说服细节（「油头实测3天没塌」）</li>
+              <li>结尾抛开放式问题引导评论（「你们最想看哪款测评？」）</li>
+              <li>图文笔记建议 ≥600 字，更易获推荐</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="pb-panel" data-panel="pick">
+          <h3>选品策略 <span class="copy-tag">可抄</span></h3>
+          <div class="pb-grid">
+            <div class="pb-card"><h4>佣金率参考</h4><ul>
+              <li>美妆个护 10–20% ｜ 母婴 15–25%</li>
+              <li>家居 15–30% ｜ 数码 5–12%</li>
+              <li>大健康 / 部分家居可达 <b>35%+</b></li>
+            </ul></div>
+            <div class="pb-card"><h4>选品金字塔</h4><ul>
+              <li>底层 60%：50–200元 实用小物</li>
+              <li>中层 30%：200–800元 体验型</li>
+              <li>顶层 10%：800元+ 决策型</li>
+            </ul></div>
+            <div class="pb-card"><h4>去哪选</h4><ul>
+              <li>蒲公英 / 选品中心：筛「高佣金 + 近30天热度高 + 已有爆文」</li>
+              <li>看佣金比率高、体验分高、销量趋势好</li>
+              <li>从评论区「求推荐」挖真实痛点</li>
+            </ul></div>
+            <div class="pb-card"><h4>赛道定位</h4><ul>
+              <li>美妆：平价替代 / 成分党 ｜ 穿搭：显瘦 / 百元内</li>
+              <li>家居：租房神器 / 收纳 ｜ 母婴：高性价比</li>
+              <li>数码：学生党平价 / 黑科技</li>
+            </ul></div>
+          </div>
+          <div class="pb-note">把你看中的品填进「选品库」，标好佣金%和状态，月底看「收益看板」算 ROI。</div>
+        </div>
+        <div class="pb-panel" data-panel="bench">
+          <h3>对标 / 竞品拆解（照着抄） <span class="copy-tag">可抄</span></h3>
+          <div class="pb-grid">
+            <div class="pb-card"><h4>去哪找对标</h4><ul>
+              <li>搜核心词 → 筛「近一周高赞」爆款笔记</li>
+              <li>每天刷同行并点赞，3 天平台推更多同行</li>
+              <li>看同领域头部最近在推什么</li>
+            </ul></div>
+            <div class="pb-card"><h4>6 维度拆解清单</h4><ul>
+              <li>□ 选题角度（它踩中什么痛点 / 热点）</li>
+              <li>□ 标题句式（数字 / 痛点 / 对比哪种）</li>
+              <li>□ 封面风格（对比图 / 白底字 / 场景）</li>
+              <li>□ 正文结构（4段式？比例？）</li>
+              <li>□ 标签组合（大词 + 细分 + 长尾）</li>
+              <li>□ 发布时间 &amp; 互动钩子</li>
+            </ul></div>
+          </div>
+          <div class="pb-card" style="margin-top:14px"><h4>复刻方法</h4><ul>
+            <li><b>抄结构、不抄文案</b>：复刻黄金结构，替换成你的产品与真实体验</li>
+            <li>例：「通勤党口红推荐」→「学生党百元内口红测评」</li>
+            <li>把跑赢的笔记记进「对标 / 爆款库」，点一下标记「已借鉴」</li>
+          </ul></div>
+        </div>
+        <div class="pb-panel" data-panel="tag">
+          <h3>标签组合策略</h3>
+          <div class="pb-card"><h4>黄金组合公式</h4><ul>
+            <li><b>1 个行业大词</b>（200万+笔记）：#彩妆</li>
+            <li><b>2 个细分词</b>（50–100万）：#平价彩妆 #学生党彩妆</li>
+            <li><b>1 个长尾词</b>（10–30万）：#2025彩妆新品</li>
+            <li><b>1 个活动标</b>：#小红书美妆节</li>
+          </ul></div>
+          <div class="pb-note">总数 ≤5 个，过多稀释权重；正文里自然揉入关键词（SEO），别硬塞。</div>
+        </div>
+        <div class="pb-panel" data-panel="data">
+          <h3>数据健康度自测</h3>
+          <table class="pb-table">
+            <tr><th>指标</th><th>公式</th><th>健康区间</th></tr>
+            <tr><td>点击率 CTR</td><td>阅读÷曝光</td><td>5–15%，&lt;5% 改封面标题，&gt;15% 爆款潜质</td></tr>
+            <tr><td>互动率</td><td>(赞+藏+评+分享)÷阅读</td><td>图文≥2.5% 及格，好的是 5%，爆款 8%+</td></tr>
+            <tr><td>完读率</td><td>读完÷阅读</td><td>图文 &gt;30% 健康</td></tr>
+            <tr><td>涨粉率</td><td>新增关注÷阅读</td><td>0.5–2%+ 健康</td></tr>
+          </table>
+          <div class="pb-grid" style="margin-top:14px">
+            <div class="pb-card"><h4>自查口诀</h4><ul>
+              <li>高曝光低点击 → 封面 / 标题问题</li>
+              <li>高点击低互动 → 内容不如预期（标题党风险）</li>
+              <li>高互动低涨粉 → 人设关联弱</li>
+            </ul></div>
+            <div class="pb-card"><h4>每周复盘</h4><ul>
+              <li>选互动率最高的 3 篇，总结成功模式</li>
+              <li>找完读率最低的 2 篇，分析流失原因</li>
+              <li>追踪带来最多新粉的内容类型，加大投入</li>
+            </ul></div>
+          </div>
+          <div class="pb-note">填了笔记的「阅读 / 赞藏评」后，下方「数据透视」会自动算你的平均互动率。</div>
+        </div>
+        <div class="pb-panel" data-panel="risk">
+          <h3>发布 &amp; 避坑红线</h3>
+          <div class="pb-grid">
+            <div class="pb-card"><h4>发布时段</h4><ul>
+              <li>早 7–9 ｜ 午 12–14 ｜ 晚 19–22</li>
+              <li>评论区用小号 / 朋友在发后 1h 带节奏</li>
+            </ul></div>
+            <div class="pb-card"><h4>权重维护</h4><ul>
+              <li>前 5 篇标签一致，垂直度 ≥70%</li>
+              <li>每周 3–5 篇；48h 内回评；互动留存 &gt;60%</li>
+              <li>信用分满分 100，&gt;90 有流量加持</li>
+            </ul></div>
+            <div class="pb-card"><h4>红线（别踩）</h4><ul>
+              <li>单日删 &gt;3 篇扣信用分 10</li>
+              <li>违规一次扣 5–20 分</li>
+              <li>合作笔记必须标「合作」</li>
+              <li>禁用绝对化用语（治愈 / 根除 / 100%）</li>
+            </ul></div>
+            <div class="pb-card"><h4>引流技巧</h4><ul>
+              <li>热门笔记下回「求链接」并附你的链接</li>
+              <li>自己评论区置顶抽奖 / QA 提互动率</li>
+              <li>评论区高赞反馈可截图当新素材</li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <section class="card col-6">
+      <h2><span class="ic">🔗</span> 常用工具</h2>
+      <div class="tools" id="toolGrid"></div>
+      <div class="add-row">
+        <input id="toolEm" placeholder="图标" style="width:54px" />
+        <input class="flex" id="toolName" placeholder="名称" />
+        <input id="toolUrl" placeholder="链接" style="flex:1.6" />
+        <button class="btn primary" id="toolAdd">+</button>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section class="card col-6">
+      <h2><span class="ic">🛒</span> 选品库 <span class="meta" id="prodMeta"></span></h2>
+      <ul class="todo-list" id="prodList" style="max-height:210px"></ul>
+      <div class="add-row">
+        <input class="flex" id="prodName" placeholder="商品名" />
+        <input id="prodPrice" type="number" placeholder="价格" style="width:70px" />
+        <input id="prodRate" type="number" placeholder="佣金%" style="width:70px" />
+        <select id="prodStatus" style="width:84px">
+          <option value="在带">在带</option>
+          <option value="待上">待上</option>
+          <option value="下架">下架</option>
+        </select>
+        <button class="btn primary" id="prodAdd">+</button>
+      </div>
+    </section>
+
+    <!-- Notes -->
+    <section class="card col-6">
+      <h2><span class="ic">📅</span> 笔记排期 + 数据</h2>
+      <div id="noteList" style="max-height:230px;overflow-y:auto"></div>
+      <div class="add-row" style="flex-wrap:wrap">
+        <input class="flex" id="noteTitle" placeholder="笔记标题" style="min-width:130px" />
+        <input id="noteTopic" placeholder="选题" style="flex:1;min-width:90px" />
+        <select id="noteStatus" style="width:88px">
+          <option value="草稿">草稿</option>
+          <option value="待发布">待发布</option>
+          <option value="已发布">已发布</option>
+        </select>
+        <input id="noteDate" type="date" style="width:140px" />
+        <input id="noteLike" type="number" placeholder="赞" style="width:52px" />
+        <input id="noteCol" type="number" placeholder="藏" style="width:52px" />
+        <input id="noteCmt" type="number" placeholder="评" style="width:52px" />
+        <input id="noteReads" type="number" placeholder="阅读" style="width:58px" />
+        <button class="btn primary" id="noteAdd">添加</button>
+      </div>
+    </section>
+
+    <!-- Titles -->
+    <section class="card col-6">
+      <h2><span class="ic">🏆</span> 标题 / 选题库 <span class="meta">点标签切换状态</span></h2>
+      <ul class="todo-list" id="titleList" style="max-height:210px"></ul>
+      <div class="add-row">
+        <input class="flex" id="titleText" placeholder="标题或选题灵感…" />
+        <select id="titleTag" style="width:92px">
+          <option value="待试">待试</option>
+          <option value="已用">已用</option>
+          <option value="爆了">爆了</option>
+        </select>
+        <button class="btn primary" id="titleAdd">+</button>
+      </div>
+    </section>
+
+    <!-- Earnings -->
+    <section class="card col-6">
+      <h2><span class="ic">📈</span> 收益看板</h2>
+      <div class="exp-sum">
+        <div class="box"><div class="n" id="earnMonth">¥0</div><div class="l">本月佣金</div></div>
+        <div class="box"><div class="n" id="earnWeek">¥0</div><div class="l">本周佣金</div></div>
+      </div>
+      <div class="bars" id="earnBars"></div>
+      <div class="add-row">
+        <input class="flex" id="earnAmount" type="number" placeholder="佣金金额" />
+        <input id="earnNote" placeholder="来源/商品" style="flex:1.4" />
+        <button class="btn primary" id="earnAdd">记一笔</button>
+      </div>
+      <ul class="todo-list" id="earnList" style="max-height:110px"></ul>
+    </section>
+
+    <!-- Benchmark -->
+    <section class="card col-6">
+      <h2><span class="ic">🎯</span> 对标 / 爆款库 <span class="meta" id="benchMeta"></span></h2>
+      <div id="benchList" style="max-height:210px;overflow-y:auto"></div>
+      <details class="api-box" style="margin:8px 0 6px">
+        <summary style="cursor:pointer;font-size:12.5px;color:var(--accent-2)">🔌 接入第三方数据（新红/千瓜 API）</summary>
+        <div class="add-row" style="margin-top:8px;flex-wrap:wrap">
+          <input class="flex" id="apiUrl" placeholder="API 地址，如 https://api.xxx.com/benchmarks" style="flex:2" />
+          <input id="apiKey" placeholder="API Key" style="flex:1" />
+          <button class="btn primary" id="apiFetch">拉取</button>
+        </div>
+        <div class="hint" style="font-size:11.5px;color:var(--text-soft);margin-top:6px">返回 JSON 数组即可自动并入：[{name, type:"对标账号"|"爆款笔记", url, reason}]</div>
+      </details>
+      <div class="add-row" style="flex-wrap:wrap">
+        <input class="flex" id="benchName" placeholder="账号名 / 笔记标题" />
+        <select id="benchType" style="width:104px">
+          <option value="对标账号">对标账号</option>
+          <option value="爆款笔记">爆款笔记</option>
+        </select>
+        <input id="benchUrl" placeholder="链接" style="flex:1.3" />
+        <input id="benchReason" placeholder="可借鉴点" style="flex:1.3" />
+        <button class="btn primary" id="benchAdd">+</button>
+      </div>
+    </section>
+
+    <!-- Recommend -->
+    <section class="card col-6">
+      <h2><span class="ic">🚀</span> 今天发什么 <span class="meta">根据排期+选题库</span></h2>
+      <div id="recList" style="max-height:230px;overflow-y:auto"></div>
+    </section>
+
+    <!-- Insights -->
+    <section class="card col-12">
+      <h2><span class="ic">📊</span> 数据透视 <span class="meta">来自笔记排期</span></h2>
+      <div class="ins-stats" id="insStats"></div>
+      <div style="font-size:12.5px;color:var(--text-soft);margin-bottom:6px">近 7 天发布趋势</div>
+      <div class="bars" id="insBars"></div>
+    </section>
+
+  </div>
+
+  <div class="foot">本地单页工作台 · 数据仅保存在你浏览器（localStorage）· 可一键导出/导入备份</div>
+</div>
+
+<div class="modal" id="importModal">
+  <div class="modal-box">
+    <h3>📥 导入数据（CSV）</h3>
+    <div class="row">
+      <label>导入到</label>
+      <select id="importType" class="todo-input" style="width:100%">
+        <option value="notes">笔记排期（标题,选题,状态,日期,赞,藏,评,阅读）</option>
+        <option value="earnings">收益（日期,金额,来源）</option>
+        <option value="benchmarks">对标/爆款（名称,类型,链接,可借鉴点）</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>选择 CSV 文件</label>
+      <input type="file" id="importCsvFile" accept=".csv,text/csv" />
+    </div>
+    <div class="hint" style="font-size:12px;color:var(--text-soft);margin-bottom:8px">首行是表头会被跳过；字段不要含逗号。也可先 <a href="#" id="dlTemplate" style="color:var(--accent-2)">下载模板</a>。</div>
+    <div class="modal-actions">
+      <button class="btn ghost" id="importCancel">取消</button>
+      <button class="btn primary" id="importConfirm">导入</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var KEY = "workbench_data_v1";
+  var THEME_KEY = "workbench_theme";
+
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function todayStr(d) { d = d || new Date(); var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" + m : m) + "-" + (day < 10 ? "0" + day : day); }
+  /* ---- 预填：8月选品清单 + 1688代发爆款参考（首次打开自动载入，可任意删除） ---- */
+  var SEED_PRODUCTS = [
+    { name: "高颜值卡通文具套装(开学季)", price: 19.9, rate: 15, status: "待上" },
+    { name: "宿舍收纳小推车", price: 39, rate: 20, status: "待上" },
+    { name: "迷你夹扇/桌面风扇", price: 25, rate: 15, status: "待上" },
+    { name: "错题本套装(开学刚需)", price: 15, rate: 12, status: "待上" },
+    { name: "平价电容笔平替", price: 29, rate: 15, status: "待上" },
+    { name: "护眼台灯", price: 49, rate: 18, status: "待上" },
+    { name: "便携挂烫机(宿舍友好)", price: 59, rate: 20, status: "待上" },
+    { name: "润唇膏(秋燥换季)", price: 12.9, rate: 20, status: "待上" },
+    { name: "美妆蛋/粉扑套装", price: 9.9, rate: 25, status: "待上" },
+    { name: "睫毛夹(新手不夹眼)", price: 9.9, rate: 25, status: "待上" },
+    { name: "日韩发夹/锁骨链", price: 19.9, rate: 30, status: "待上" },
+    { name: "磁吸耳夹(无耳洞)", price: 15.9, rate: 35, status: "待上" },
+    { name: "桌面收纳盒", price: 16.9, rate: 25, status: "待上" },
+    { name: "厨房小工具套装", price: 22, rate: 20, status: "待上" }
+  ];
+  var SEED_BENCH = [
+    { name: "潮饰配饰：耳环/项链/发夹(1688代发)", type: "爆款笔记",
+      reason: "1688 1件起批、毛利40-60%，颜值高出片，小红书女生消费力强、出单快。例：磁吸耳夹出厂0.24元可卖15-30元。" },
+    { name: "美妆工具：粉扑/化妆刷/假睫毛/睫毛夹", type: "爆款笔记",
+      reason: "低客单、易拍真人对比、转化稳、退货少。例：睫毛夹拿货2.96元卖32.99元曾爆2.1万单。" },
+    { name: "家居日用：收纳盒/清洁/厨房小工具", type: "爆款笔记",
+      reason: "单价低、复购高、体积小发货快、几乎无售后，新手起号首选，毛利35-50%。" },
+    { name: "收纳与家居小物：小推车/衣架/桌面收纳", type: "爆款笔记",
+      reason: "刚需高频、场景化强，适合合集/改造类内容，1688一件代发、面单支持小红书。" },
+    { name: "学生党小电器：迷你电煮锅/加湿器/台灯", type: "爆款笔记",
+      reason: "单价50-200、颜值即正义、退货率低；1688超80%供应商支持单件发货48h出库。" },
+    { name: "文具文创：手账本/胶带/创意礼品", type: "爆款笔记",
+      reason: "轻资产、素材多、退货率低，开学季+节日礼品双节点，毛利45-65%。" },
+    { name: "宠物用品：玩具/牵引绳/服饰/窝垫", type: "爆款笔记",
+      reason: "需求稳、受众精准、售后少，1688一件代发，长期做很稳，毛利30-45%。" },
+    { name: "天然水晶/矿石饰品(蓝海)", type: "爆款笔记",
+      reason: "成本10-50卖50-300，毛利70-80%，天然独特不比价、内容易出圈，1688可代发。" }
+  ];
+  function applySeed(obj) {
+    SEED_PRODUCTS.forEach(function (p) {
+      if (!obj.products.some(function (x) { return x.name === p.name; }))
+        obj.products.push({ id: uid(), name: p.name, price: p.price, rate: p.rate, status: p.status });
+    });
+    SEED_BENCH.forEach(function (b) {
+      if (!obj.benchmarks.some(function (x) { return x.name === b.name; }))
+        obj.benchmarks.push({ id: uid(), name: b.name, type: b.type, url: "", reason: b.reason, copied: false });
+    });
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) {
+        var r = JSON.parse(raw);
+        if (r && typeof r === "object") {
+          var d = defaults();
+          ["products", "notes", "titles", "earnings", "benchmarks", "tools"]
+            .forEach(function (k) { if (r[k] === undefined) r[k] = d[k]; });
+          if (!r.seededV2) { applySeed(r); r.seededV2 = true; }
+          localStorage.setItem(KEY, JSON.stringify(r));
+          return r;
+        }
+      }
+    } catch (e) {}
+    var d2 = defaults();
+    if (!d2.seededV2) { applySeed(d2); d2.seededV2 = true; }
+    localStorage.setItem(KEY, JSON.stringify(d2));
+    return d2;
+  }
+  function save() { localStorage.setItem(KEY, JSON.stringify(D)); }
+
+  function defaults() {
+    return {
+      products: [],
+      benchmarks: [],
+      notes: [],
+      titles: [],
+      earnings: [],
+      tools: [
+        { id: uid(), name: "创作者中心", url: "https://creator.xiaohongshu.com", emoji: "📕" },
+        { id: uid(), name: "蒲公英", url: "https://pgy.xiaohongshu.com", emoji: "🌱" },
+        { id: uid(), name: "稿定设计", url: "https://www.gaoding.com", emoji: "🎨" },
+        { id: uid(), name: "Canva", url: "https://www.canva.cn", emoji: "🖌️" },
+        { id: uid(), name: "新红数据", url: "https://xh.newrank.cn", emoji: "📊" },
+        { id: uid(), name: "飞瓜数据", url: "https://www.feigua.cn", emoji: "🍐" }
+      ]
+    };
+  }
+
+  var D = load();
+
+  /* ---------- Header ---------- */
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function tick() {
+    var d = new Date();
+    document.getElementById("clock").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
+    var wk = ["日", "一", "二", "三", "四", "五", "六"][d.getDay()];
+    document.getElementById("date").textContent = (d.getMonth() + 1) + "月" + d.getDate() + "日 星期" + wk;
+    var h = d.getHours();
+    var g = h < 6 ? "夜深了" : h < 11 ? "早上好" : h < 14 ? "中午好" : h < 18 ? "下午好" : "晚上好";
+    document.getElementById("greet").textContent = g + " 👋";
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- Stats ---------- */
+  function weekRange() {
+    var now = new Date(); var day = now.getDay(); var mon = new Date(now);
+    mon.setDate(now.getDate() - ((day === 0 ? 6 : day - 1)));
+    mon.setHours(0, 0, 0, 0);
+    var sun = new Date(mon); sun.setDate(mon.getDate() + 6); sun.setHours(23, 59, 59, 999);
+    return { mon: mon, sun: sun };
+  }
+  function inWeek(dateStr) { var t = new Date(dateStr + "T00:00:00"); var w = weekRange();
+    return t >= w.mon && t <= w.sun; }
+  function renderStats() {
+    var m = new Date(); var ym = m.getFullYear() + "-" + pad(m.getMonth() + 1);
+    var monthEarn = D.earnings.filter(function (e) { return e.date.indexOf(ym) === 0; })
+      .reduce(function (s, e) { return s + e.amount; }, 0);
+    var pubWeek = D.notes.filter(function (n) { return n.status === "已发布" && inWeek(n.date); }).length;
+    var onProducts = D.products.filter(function (p) { return p.status === "在带"; }).length;
+    var pendingNotes = D.notes.filter(function (n) { return n.status === "待发布"; }).length;
+    var w = weekRange();
+    document.getElementById("statWeek").textContent =
+      (w.mon.getMonth() + 1) + "/" + w.mon.getDate() + " – " + (w.sun.getMonth() + 1) + "/" + w.sun.getDate();
+    var stats = [
+      { n: "¥" + monthEarn, l: "本月佣金" },
+      { n: pubWeek + " 篇", l: "本周已发笔记" },
+      { n: onProducts + " 个", l: "在带商品" },
+      { n: pendingNotes + " 篇", l: "待发布笔记" }
+    ];
+    document.getElementById("stats").innerHTML = stats.map(function (s) {
+      return '<div class="stat"><div class="n">' + s.n + '</div><div class="l">' + s.l + '</div></div>';
+    }).join("");
+  }
+
+  /* ---------- Tools ---------- */
+  function renderTools() {
+    document.getElementById("toolGrid").innerHTML = D.tools.map(function (tl) {
+      return '<a class="tool" href="' + esc(tl.url) + '" target="_blank" rel="noopener" data-tid="' + tl.id + '">' +
+        '<div class="em">' + (tl.emoji || "🔗") + '</div><div class="nm">' + esc(tl.name) + '</div></a>';
+    }).join("");
+  }
+  document.getElementById("toolGrid").addEventListener("contextmenu", function (e) {
+    var a = e.target.closest(".tool"); if (!a) return;
+    e.preventDefault();
+    if (confirm("删除这个快捷方式？")) {
+      var id = a.getAttribute("data-tid"); D.tools = D.tools.filter(function (x) { return x.id !== id; });
+      save(); renderTools();
+    }
+  });
+  document.getElementById("toolAdd").addEventListener("click", function () {
+    var name = document.getElementById("toolName").value.trim();
+    var url = document.getElementById("toolUrl").value.trim();
+    var em = document.getElementById("toolEm").value.trim() || "🔗";
+    if (!name || !url) return;
+    if (url.indexOf("http") !== 0) url = "https://" + url;
+    D.tools.push({ id: uid(), name: name, url: url, emoji: em });
+    save();
+    document.getElementById("toolName").value = ""; document.getElementById("toolUrl").value = ""; document.getElementById("toolEm").value = "";
+    renderTools();
+  });
+
+  /* ---------- Playbook tabs ---------- */
+  (function () {
+    var tabs = document.querySelectorAll("#pbTabs .tab");
+    var panels = document.querySelectorAll("#pbPanels .pb-panel");
+    tabs.forEach(function (t) {
+      t.addEventListener("click", function () {
+        var key = t.getAttribute("data-tab");
+        tabs.forEach(function (x) { x.classList.toggle("on", x === t); });
+        panels.forEach(function (p) { p.classList.toggle("on", p.getAttribute("data-panel") === key); });
+      });
+    });
+  })();
+
+  /* ---------- Theme ---------- */
+  function applyTheme(th) {
+    document.documentElement.setAttribute("data-theme", th);
+    document.getElementById("themeBtn").textContent = th === "dark" ? "☀️ 浅色" : "🌙 深色";
+    localStorage.setItem(THEME_KEY, th);
+  }
+  var savedTheme = localStorage.getItem(THEME_KEY) || "light";
+  applyTheme(savedTheme);
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    var cur = document.documentElement.getAttribute("data-theme");
+    applyTheme(cur === "dark" ? "light" : "dark");
+  });
+
+  /* ---------- Backup ---------- */
+  document.getElementById("exportBtn").addEventListener("click", function () {
+    var blob = new Blob([JSON.stringify(D, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "workbench-backup-" + todayStr() + ".json";
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+  document.getElementById("importBtn").addEventListener("click", function () {
+    document.getElementById("importFile").click();
+  });
+  document.getElementById("importFile").addEventListener("change", function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function () {
+      try { var data = JSON.parse(r.result); if (data && data.products !== undefined) { D = data; save(); boot(); alert("备份已导入 ✅"); } }
+      catch (err) { alert("文件格式不正确"); }
+    };
+    r.readAsText(f); e.target.value = "";
+  });
+
+  /* ---------- Products ---------- */
+  function renderProducts() {
+    var ul = document.getElementById("prodList");
+    if (!D.products.length) { ul.innerHTML = '<div class="empty">还没有选品，加一个 🛒</div>'; document.getElementById("prodMeta").textContent = ""; return; }
+    document.getElementById("prodMeta").textContent = D.products.filter(function (p) { return p.status === "在带"; }).length + " 在带";
+    ul.innerHTML = D.products.slice().reverse().map(function (p) {
+      var on = p.status === "在带";
+      return '<li class="prod"><span class="t">' + esc(p.name) + '</span>' +
+        '<span class="c">¥' + (p.price || 0) + ' · ' + (p.rate || 0) + '%</span>' +
+        '<span class="badge ' + (on ? "on" : "") + '">' + esc(p.status) + '</span>' +
+        '<button class="del" data-pd="' + p.id + '">✕</button></li>';
+    }).join("");
+  }
+  document.getElementById("prodAdd").addEventListener("click", function () {
+    var name = document.getElementById("prodName").value.trim(); if (!name) return;
+    D.products.push({ id: uid(), name: name,
+      price: parseFloat(document.getElementById("prodPrice").value) || 0,
+      rate: parseFloat(document.getElementById("prodRate").value) || 0,
+      status: document.getElementById("prodStatus").value });
+    save(); document.getElementById("prodName").value = ""; document.getElementById("prodPrice").value = ""; document.getElementById("prodRate").value = "";
+    renderProducts();
+  });
+  document.getElementById("prodList").addEventListener("click", function (e) {
+    var id = e.target.getAttribute("data-pd"); if (!id) return;
+    D.products = D.products.filter(function (x) { return x.id !== id; }); save(); renderProducts();
+  });
+
+  /* ---------- Notes ---------- */
+  function renderNotes() {
+    var box = document.getElementById("noteList");
+    if (!D.notes.length) { box.innerHTML = '<div class="empty">还没有笔记排期，加一篇 📅</div>'; return; }
+    var list = D.notes.slice().sort(function (a, b) { return (a.date || "") < (b.date || "") ? 1 : -1; });
+    var stCls = { "草稿": "draft", "待发布": "ready", "已发布": "pub" };
+    box.innerHTML = list.map(function (n) {
+      return '<div class="note" data-nid="' + n.id + '"><div class="nt">' + esc(n.title) +
+        ' <span class="st ' + (stCls[n.status] || "draft") + '">' + esc(n.status) + '</span></div>' +
+        '<div class="nm"><span>📂 ' + esc(n.topic || "") + '</span><span>📆 ' + (n.date || "") + '</span>' +
+        '<span class="metrics" data-nid="' + n.id + '" style="cursor:pointer;color:var(--accent-2)">👍' + (n.like || 0) + ' · ⭐' + (n.collect || 0) + ' · 💬' + (n.cmt || 0) + ' · 👁' + (n.reads || 0) + '</span>' +
+        '<button class="del" data-nd="' + n.id + '" style="margin-left:auto">✕</button></div></div>';
+    }).join("");
+  }
+  document.getElementById("noteAdd").addEventListener("click", function () {
+    var title = document.getElementById("noteTitle").value.trim(); if (!title) return;
+    D.notes.push({ id: uid(),
+      title: title,
+      topic: document.getElementById("noteTopic").value.trim(),
+      status: document.getElementById("noteStatus").value,
+      date: document.getElementById("noteDate").value || todayStr(),
+      like: parseInt(document.getElementById("noteLike").value, 10) || 0,
+      collect: parseInt(document.getElementById("noteCol").value, 10) || 0,
+      cmt: parseInt(document.getElementById("noteCmt").value, 10) || 0,
+      reads: parseInt(document.getElementById("noteReads").value, 10) || 0 });
+    save();
+    ["noteTitle", "noteTopic", "noteLike", "noteCol", "noteCmt", "noteReads"].forEach(function (id) { document.getElementById(id).value = ""; });
+    renderNotes(); renderStats();
+  });
+  document.getElementById("noteList").addEventListener("click", function (e) {
+    var del = e.target.getAttribute("data-nd");
+    var met = e.target.closest(".metrics");
+    if (met) {
+      var id = met.getAttribute("data-nid"); var n = D.notes.find(function (x) { return x.id === id; }); if (!n) return;
+      var s = prompt("格式：赞,藏,评,阅读", (n.like || 0) + "," + (n.collect || 0) + "," + (n.cmt || 0) + "," + (n.reads || 0));
+      if (s) { var p = s.split(",").map(function (x) { return parseInt(x, 10) || 0; }); n.like = p[0] || 0; n.collect = p[1] || 0; n.cmt = p[2] || 0; n.reads = p[3] || 0; save(); renderNotes(); renderStats(); }
+    } else if (del) {
+      D.notes = D.notes.filter(function (x) { return x.id !== del; }); save(); renderNotes(); renderStats();
+    }
+  });
+
+  /* ---------- Titles ---------- */
+  function renderTitles() {
+    var ul = document.getElementById("titleList");
+    if (!D.titles.length) { ul.innerHTML = '<div class="empty">积累你的标题/选题库 🏆</div>'; return; }
+    var tagCls = { "待试": "todo", "已用": "used", "爆了": "hot" };
+    var order = { "待试": 0, "已用": 1, "爆了": 2 };
+    var list = D.titles.slice().sort(function (a, b) { return order[a.tag] - order[b.tag]; });
+    ul.innerHTML = list.map(function (t) {
+      return '<li class="title-item"><span class="tx">' + esc(t.text) + '</span>' +
+        '<span class="tag ' + (tagCls[t.tag] || "todo") + '" data-tid="' + t.id + '">' + esc(t.tag) + '</span>' +
+        '<button class="del" data-td="' + t.id + '">✕</button></li>';
+    }).join("");
+  }
+  document.getElementById("titleAdd").addEventListener("click", function () {
+    var text = document.getElementById("titleText").value.trim(); if (!text) return;
+    D.titles.push({ id: uid(), text: text, tag: document.getElementById("titleTag").value });
+    save(); document.getElementById("titleText").value = ""; renderTitles();
+  });
+  document.getElementById("titleList").addEventListener("click", function (e) {
+    var tag = e.target.getAttribute("data-tid");
+    var del = e.target.getAttribute("data-td");
+    if (tag) {
+      var t = D.titles.find(function (x) { return x.id === tag; }); if (!t) return;
+      var seq = ["待试", "已用", "爆了"]; t.tag = seq[(seq.indexOf(t.tag) + 1) % 3]; save(); renderTitles();
+    } else if (del) {
+      D.titles = D.titles.filter(function (x) { return x.id !== del; }); save(); renderTitles();
+    }
+  });
+
+  /* ---------- Earnings ---------- */
+  function renderEarnings() {
+    var weekEarn = D.earnings.filter(function (e) { return inWeek(e.date); }).reduce(function (s, e) { return s + e.amount; }, 0);
+    var m = new Date(); var ym = m.getFullYear() + "-" + pad(m.getMonth() + 1);
+    var monthEarn = D.earnings.filter(function (e) { return e.date.indexOf(ym) === 0; }).reduce(function (s, e) { return s + e.amount; }, 0);
+    document.getElementById("earnMonth").textContent = "¥" + monthEarn;
+    document.getElementById("earnWeek").textContent = "¥" + weekEarn;
+    var days = []; for (var i = 6; i >= 0; i--) { var d = new Date(); d.setDate(d.getDate() - i); days.push(d); }
+    var max = 1;
+    var sums = days.map(function (d) {
+      var s = todayStr(d); var v = D.earnings.filter(function (e) { return e.date === s; }).reduce(function (a, e) { return a + e.amount; }, 0);
+      if (v > max) max = v; return v;
+    });
+    document.getElementById("earnBars").innerHTML = days.map(function (d, i) {
+      var h = max ? Math.round(sums[i] / max * 100) : 0;
+      return '<div class="b"><div class="fill" style="height:' + h + '%" title="¥' + sums[i] + '"></div><div class="lab">' + (d.getMonth() + 1) + "/" + d.getDate() + '</div></div>';
+    }).join("");
+    var ul = document.getElementById("earnList");
+    var recent = D.earnings.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; }).slice(0, 6);
+    if (!recent.length) { ul.innerHTML = '<div class="empty">还没有佣金记录～</div>'; return; }
+    ul.innerHTML = recent.map(function (e) {
+      return '<li><div class="todo-text">¥' + e.amount + ' · ' + esc(e.note || "佣金") + '</div><span style="color:var(--text-soft);font-size:12px">' + e.date.slice(5) + '</span><button class="del" data-ed2="' + e.id + '">✕</button></li>';
+    }).join("");
+  }
+  document.getElementById("earnAdd").addEventListener("click", function () {
+    var amt = parseFloat(document.getElementById("earnAmount").value); if (!amt || amt <= 0) return;
+    var note = document.getElementById("earnNote").value.trim();
+    D.earnings.push({ id: uid(), amount: amt, note: note, date: todayStr() });
+    save(); document.getElementById("earnAmount").value = ""; document.getElementById("earnNote").value = ""; renderEarnings(); renderStats();
+  });
+  document.getElementById("earnList").addEventListener("click", function (e) {
+    var id = e.target.getAttribute("data-ed2"); if (!id) return;
+    D.earnings = D.earnings.filter(function (x) { return x.id !== id; }); save(); renderEarnings(); renderStats();
+  });
+
+  /* ---------- Benchmark library ---------- */
+  var API_URL_KEY = "workbench_api_url";
+  var API_KEY_KEY = "workbench_api_key";
+  function renderBench() {
+    var box = document.getElementById("benchList");
+    if (!D.benchmarks.length) { box.innerHTML = '<div class="empty">记录对标账号 / 爆款笔记 🎯</div>'; document.getElementById("benchMeta").textContent = ""; return; }
+    document.getElementById("benchMeta").textContent = D.benchmarks.filter(function (b) { return b.copied; }).length + " 已借鉴";
+    box.innerHTML = D.benchmarks.slice().reverse().map(function (b) {
+      var url = b.url ? (' <a href="' + esc(b.url) + '" target="_blank" rel="noopener">🔗</a>') : "";
+      return '<div class="bench" data-bid="' + b.id + '"><div class="bt"><span class="badge ' + (b.type === "爆款笔记" ? "on" : "") + '">' + esc(b.type) + '</span> ' +
+        esc(b.name) + url + (b.copied ? '<span class="copied">✓已借鉴</span>' : '') +
+        (b.reason ? '<div class="br">💡 ' + esc(b.reason) + '</div>' : '') + '</div>' +
+        '<button class="del" data-bd="' + b.id + '">✕</button></div>';
+    }).join("");
+  }
+  document.getElementById("benchAdd").addEventListener("click", function () {
+    var name = document.getElementById("benchName").value.trim(); if (!name) return;
+    D.benchmarks.push({ id: uid(), name: name, type: document.getElementById("benchType").value,
+      url: document.getElementById("benchUrl").value.trim(), reason: document.getElementById("benchReason").value.trim(), copied: false });
+    save();
+    ["benchName", "benchUrl", "benchReason"].forEach(function (id) { document.getElementById(id).value = ""; });
+    renderBench();
+  });
+  document.getElementById("benchList").addEventListener("click", function (e) {
+    var del = e.target.getAttribute("data-bd");
+    var card = e.target.closest(".bench");
+    if (card && !del) {
+      var id = card.getAttribute("data-bid"); var b = D.benchmarks.find(function (x) { return x.id === id; }); if (!b) return;
+      b.copied = !b.copied; save(); renderBench();
+    } else if (del) {
+      D.benchmarks = D.benchmarks.filter(function (x) { return x.id !== del; }); save(); renderBench();
+    }
+  });
+  document.getElementById("apiFetch").addEventListener("click", function () {
+    var url = document.getElementById("apiUrl").value.trim();
+    var key = document.getElementById("apiKey").value.trim();
+    if (!url) { alert("请先填写 API 地址"); return; }
+    localStorage.setItem(API_URL_KEY, url); localStorage.setItem(API_KEY_KEY, key);
+    fetch(url + (url.indexOf("?") >= 0 ? "&" : "?") + "key=" + encodeURIComponent(key))
+      .then(function (r) { return r.json(); })
+      .then(function (arr) {
+        if (!Array.isArray(arr)) throw new Error("返回格式不是数组");
+        var before = D.benchmarks.length;
+        arr.forEach(function (it) {
+          if (!it || !it.name) return;
+          var exists = D.benchmarks.some(function (b) { return b.name === it.name && (b.url || "") === (it.url || ""); });
+          if (!exists) D.benchmarks.push({ id: uid(), name: String(it.name), type: it.type === "对标账号" ? "对标账号" : "爆款笔记",
+            url: it.url || "", reason: it.reason || "", copied: false });
+        });
+        save(); renderBench();
+        alert("已从 API 拉取 " + (D.benchmarks.length - before) + " 条新记录 ✅");
+      })
+      .catch(function (err) { alert("拉取失败：" + err.message + "\n（多为跨域 CORS 或接口格式问题，详见浏览器控制台）"); });
+  });
+
+  /* ---------- Recommend today ---------- */
+  function renderRec() {
+    var box = document.getElementById("recList");
+    var cands = [];
+    D.notes.filter(function (n) { return n.status === "待发布"; }).sort(function (a, b) { return (a.date || "") < (b.date || "") ? -1 : 1; })
+      .forEach(function (n) { cands.push({ kind: "note", id: n.id, title: n.title, sub: "📅 待发布笔记 · " + (n.topic || "") + " · " + (n.date || "") }); });
+    D.titles.filter(function (x) { return x.tag === "待试"; })
+      .forEach(function (x) { cands.push({ kind: "title", id: x.id, title: x.text, sub: "🏆 待试选题" }); });
+    if (!cands.length) { box.innerHTML = '<div class="empty">暂无待发布笔记 / 待试选题，先去排期或选题库加几条 🚀</div>'; return; }
+    box.innerHTML = cands.slice(0, 6).map(function (c) {
+      return '<div class="rec" data-kind="' + c.kind + '" data-id="' + c.id + '"><div class="rt"><div>' + esc(c.title) + '</div><div class="rs">' + esc(c.sub) + '</div></div>' +
+        '<button class="btn primary" data-act="do">标记发布</button></div>';
+    }).join("");
+  }
+  document.getElementById("recList").addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-act='do']"); if (!btn) return;
+    var row = e.target.closest(".rec"); var kind = row.getAttribute("data-kind"); var id = row.getAttribute("data-id");
+    if (kind === "note") {
+      var n = D.notes.find(function (x) { return x.id === id; }); if (n) { n.status = "已发布"; n.date = todayStr(); }
+    } else {
+      var t2 = D.titles.find(function (x) { return x.id === id; }); if (t2) { t2.tag = "已用"; }
+    }
+    save(); renderRec(); renderNotes(); renderTitles(); renderStats();
+  });
+
+  /* ---------- Insights ---------- */
+  function renderInsights() {
+    var notes = D.notes;
+    var pub = notes.filter(function (n) { return n.status === "已发布"; });
+    var totalEng = notes.reduce(function (s, n) { return s + (n.like || 0) + (n.collect || 0) + (n.cmt || 0); }, 0);
+    var readsSum = notes.reduce(function (s, n) { return s + (n.reads || 0); }, 0);
+    var engRate = readsSum > 0 ? ((totalEng / readsSum) * 100).toFixed(1) + "%" : "—";
+    var best = notes.slice().sort(function (a, b) {
+      return ((b.like || 0) + (b.collect || 0) + (b.cmt || 0)) - ((a.like || 0) + (a.collect || 0) + (a.cmt || 0));
+    })[0];
+    var bestTxt = best ? (best.title + "（" + ((best.like || 0) + (best.collect || 0) + (best.cmt || 0)) + "）") : "—";
+    document.getElementById("insStats").innerHTML = [
+      { n: pub.length, l: "已发布篇数" },
+      { n: totalEng, l: "总赞藏评" },
+      { n: engRate, l: "平均互动率" },
+      { n: bestTxt, l: "最佳笔记" }
+    ].map(function (s) { return '<div class="ins-stat"><div class="n">' + esc(String(s.n)) + '</div><div class="l">' + s.l + '</div></div>'; }).join("");
+    var days = []; for (var i = 6; i >= 0; i--) { var d = new Date(); d.setDate(d.getDate() - i); days.push(d); }
+    var counts = days.map(function (d) {
+      var s = todayStr(d); return pub.filter(function (n) { return (n.date || "").slice(0, 10) === s; }).length;
+    });
+    var max = Math.max.apply(null, counts.concat([1]));
+    document.getElementById("insBars").innerHTML = days.map(function (d, i) {
+      var h = max ? Math.round(counts[i] / max * 100) : 0;
+      return '<div class="b"><div class="fill" style="height:' + h + '%" title="' + counts[i] + '篇"></div><div class="lab">' + (d.getMonth() + 1) + "/" + d.getDate() + '</div></div>';
+    }).join("");
+  }
+
+  /* ---------- CSV import ---------- */
+  function parseCSV(text) {
+    var lines = text.replace(/\r/g, "").split("\n").filter(function (l) { return l.trim() !== ""; });
+    if (!lines.length) return [];
+    return lines.slice(1).map(function (line) {
+      var out = [], cur = "", q = false;
+      for (var i = 0; i < line.length; i++) {
+        var c = line[i];
+        if (c === '"') { q = !q; }
+        else if (c === "," && !q) { out.push(cur); cur = ""; }
+        else cur += c;
+      }
+      out.push(cur);
+      return out.map(function (x) { return x.trim(); });
+    });
+  }
+  function openImport() { document.getElementById("importModal").classList.add("show"); }
+  function closeImport() { document.getElementById("importModal").classList.remove("show"); }
+  document.getElementById("importDataBtn").addEventListener("click", openImport);
+  document.getElementById("importCancel").addEventListener("click", closeImport);
+  document.getElementById("importModal").addEventListener("click", function (e) { if (e.target === this) closeImport(); });
+  document.getElementById("dlTemplate").addEventListener("click", function (e) {
+    e.preventDefault();
+    var type = document.getElementById("importType").value;
+    var header = type === "notes" ? "标题,选题,状态,日期,赞,藏,评,阅读\n示例笔记,穿搭测评,待发布,2026-08-15,100,50,20,2000"
+      : type === "earnings" ? "日期,金额,来源\n2026-08-15,120,商品A佣金"
+      : "名称,类型,链接,可借鉴点\n某某博主,对标账号,https://www.xiaohongshu.com/user/profile/xxx,封面统一用实拍";
+    var blob = new Blob([header], { type: "text/csv" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = "template-" + type + ".csv"; a.click(); URL.revokeObjectURL(a.href);
+  });
+  document.getElementById("importConfirm").addEventListener("click", function () {
+    var file = document.getElementById("importCsvFile").files[0]; if (!file) { alert("请先选择 CSV 文件"); return; }
+    var type = document.getElementById("importType").value;
+    var r = new FileReader();
+    r.onload = function () {
+      var rows = parseCSV(r.result);
+      var added = 0;
+      rows.forEach(function (cols) {
+        if (type === "notes") {
+          if (!cols[0]) return;
+          var st = ["草稿", "待发布", "已发布"].indexOf(cols[2]) >= 0 ? cols[2] : "草稿";
+          D.notes.push({ id: uid(), title: cols[0], topic: cols[1] || "", status: st,
+            date: cols[3] || todayStr(), like: parseInt(cols[4], 10) || 0, collect: parseInt(cols[5], 10) || 0,
+            cmt: parseInt(cols[6], 10) || 0, reads: parseInt(cols[7], 10) || 0 });
+          added++;
+        } else if (type === "earnings") {
+          var amt = parseFloat(cols[1]); if (!cols[0] || !amt) return;
+          D.earnings.push({ id: uid(), amount: amt, note: cols[2] || "佣金", date: cols[0] });
+          added++;
+        } else {
+          if (!cols[0]) return;
+          var t = cols[1] === "对标账号" ? "对标账号" : "爆款笔记";
+          D.benchmarks.push({ id: uid(), name: cols[0], type: t, url: cols[2] || "", reason: cols[3] || "", copied: false });
+          added++;
+        }
+      });
+      save(); renderNotes(); renderStats(); renderEarnings(); renderBench(); renderInsights();
+      alert("成功导入 " + added + " 条 ✅");
+      closeImport();
+      document.getElementById("importCsvFile").value = "";
+    };
+    r.readAsText(file);
+  });
+
+  /* ---------- Restore API inputs ---------- */
+  (function () {
+    var u = localStorage.getItem(API_URL_KEY), k = localStorage.getItem(API_KEY_KEY);
+    if (u) document.getElementById("apiUrl").value = u;
+    if (k) document.getElementById("apiKey").value = k;
+  })();
+
+  /* ---------- Utils ---------- */
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* ---------- Boot ---------- */
+  function boot() {
+    renderStats();
+    renderTools();
+    renderProducts(); renderNotes(); renderTitles(); renderEarnings();
+    renderBench(); renderRec(); renderInsights();
+  }
+  boot();
+})();
+</script>
 </body>
 </html>
