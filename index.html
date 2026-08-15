@@ -15,8 +15,8 @@
     --text: #2c2a26;
     --text-soft: #8a857c;
     --line: #ece8e1;
-    --accent: #ff8a5b;
-    --accent-2: #4aa8c0;
+    --accent: #ff2442;
+    --accent-2: #ff7a92;
     --good: #5bb98c;
     --warn: #e6a23c;
     --shadow: 0 8px 30px rgba(60, 50, 40, 0.08);
@@ -32,8 +32,8 @@
     --text: #ece9e3;
     --text-soft: #9a958c;
     --line: #2e2e36;
-    --accent: #ff9a6b;
-    --accent-2: #5bbfd8;
+    --accent: #ff4d6d;
+    --accent-2: #ff8095;
     --shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   }
   * { box-sizing: border-box; }
@@ -231,6 +231,36 @@
   .copy-tag { display: inline-block; font-size: 11px; color: var(--good); border: 1px solid var(--good); border-radius: 10px; padding: 0 7px; margin-left: 6px; vertical-align: middle; }
 
   ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+
+  /* Draft generator */
+  .draft-block { margin-bottom: 14px; }
+  .draft-block > b { font-size: 13px; color: var(--accent); display: block; margin-bottom: 7px; }
+  .draft-block ul, .draft-block ol { margin: 0; padding-left: 20px; font-size: 13.5px; line-height: 1.9; }
+  .draft-body p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.7; }
+  .draft-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chart-title { font-size: 12.5px; color: var(--text-soft); margin: 14px 0 6px; font-weight: 600; }
+  /* Calendar */
+  .cal-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .cal-wd { text-align: center; font-size: 11px; color: var(--text-soft); padding: 4px 0; }
+  .cal-cell { background: var(--card-soft); border: 1px solid var(--line); border-radius: 12px; min-height: 62px; padding: 6px; cursor: pointer; transition: .15s; position: relative; }
+  .cal-cell:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .cal-cell.empty { background: transparent; border: none; cursor: default; }
+  .cal-cell.empty:hover { transform: none; border: none; }
+  .cal-cell.today { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(255,36,66,.18); }
+  .cal-num { font-size: 13px; font-weight: 650; }
+  .cal-cnt { position: absolute; top: 6px; right: 8px; font-size: 10px; color: var(--text-soft); }
+  .cal-dots { display: flex; gap: 3px; margin-top: 6px; flex-wrap: wrap; }
+  .cal-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .cal-dot.pub { background: var(--good); } .cal-dot.ready { background: var(--warn); } .cal-dot.draft { background: var(--text-soft); }
+  /* Mobile refinement */
+  @media (max-width: 600px) {
+    .wrap { padding: 16px 12px 48px; }
+    .card { padding: 16px; }
+    .greet h1 { font-size: 22px; }
+    .top-actions { width: 100%; }
+    .cal-cell { min-height: 48px; }
+  }
 </style>
 </head>
 <body>
@@ -465,6 +495,27 @@
       </div>
     </section>
 
+    <!-- Draft generator -->
+    <section class="card col-12">
+      <h2><span class="ic">✍️</span> 笔记草稿生成器 <span class="meta">选品类，一键产出可发草稿</span></h2>
+      <div class="add-row" style="flex-wrap:wrap">
+        <input class="flex" id="draftTopic" placeholder="输入主题/商品，如：宿舍收纳小推车" style="min-width:200px" />
+        <select id="draftCat" style="width:130px">
+          <option value="通用">通用</option>
+          <option value="美妆">美妆</option>
+          <option value="家居">家居</option>
+          <option value="配饰">配饰</option>
+          <option value="学生好物">学生好物</option>
+          <option value="美食">美食</option>
+          <option value="穿搭">穿搭</option>
+          <option value="其他">其他</option>
+        </select>
+        <button class="btn primary" id="draftGen">🪄 生成草稿</button>
+        <button class="btn" id="draftCopy" style="display:none">📋 复制全文</button>
+      </div>
+      <div id="draftOut" style="margin-top:12px"></div>
+    </section>
+
     <!-- Tools -->
     <section class="card col-6">
       <h2><span class="ic">🔗</span> 常用工具</h2>
@@ -583,6 +634,22 @@
       <div class="ins-stats" id="insStats"></div>
       <div style="font-size:12.5px;color:var(--text-soft);margin-bottom:6px">近 7 天发布趋势</div>
       <div class="bars" id="insBars"></div>
+      <div class="chart-title">💰 收益趋势（近 14 天，元）</div>
+      <div id="earnTrend"></div>
+      <div class="chart-title">🏆 笔记表现 TOP5（赞 + 藏 + 评）</div>
+      <div id="noteRank"></div>
+    </section>
+
+    <!-- Calendar -->
+    <section class="card col-12">
+      <h2><span class="ic">🗓️</span> 内容日历 <span class="meta">点日期预填笔记排期</span></h2>
+      <div class="cal-head">
+        <button class="btn" id="calPrev">‹</button>
+        <span id="calTitle" style="font-weight:700;font-size:14px"></span>
+        <button class="btn" id="calNext">›</button>
+        <button class="btn ghost" id="calToday" style="margin-left:auto">今天</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
     </section>
 
   </div>
@@ -1065,6 +1132,55 @@
       var h = max ? Math.round(counts[i] / max * 100) : 0;
       return '<div class="b"><div class="fill" style="height:' + h + '%" title="' + counts[i] + '篇"></div><div class="lab">' + (d.getMonth() + 1) + "/" + d.getDate() + '</div></div>';
     }).join("");
+    // 收益趋势（近 14 天）
+    var edays = []; for (var e = 13; e >= 0; e--) { var ed = new Date(); ed.setDate(ed.getDate() - e); edays.push(ed); }
+    var earnTrend = edays.map(function (d) {
+      var s = todayStr(d);
+      var v = D.earnings.filter(function (x) { return x.date === s; }).reduce(function (a, x) { return a + x.amount; }, 0);
+      return { l: (d.getMonth() + 1) + "/" + d.getDate(), v: v };
+    });
+    document.getElementById("earnTrend").innerHTML = svgLine(earnTrend);
+    // 笔记表现排行 TOP5
+    var ranked = D.notes.map(function (n) { return { l: n.title || "未命名", v: (n.like || 0) + (n.collect || 0) + (n.cmt || 0) }; })
+      .filter(function (x) { return x.v > 0; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 5);
+    document.getElementById("noteRank").innerHTML = ranked.length ? svgBars(ranked) : '<div class="empty">还没有带数据的笔记</div>';
+  }
+
+  /* ---------- Charts (pure SVG) ---------- */
+  function svgLine(data) {
+    var W = 640, H = 160, pad = 26;
+    var maxV = Math.max.apply(null, data.map(function (d) { return d.v; }).concat([1]));
+    var n = data.length;
+    var stepX = n > 1 ? (W - 2 * pad) / (n - 1) : 0;
+    var pts = data.map(function (d, i) {
+      var x = pad + i * stepX;
+      var y = H - pad - (maxV ? d.v / maxV * (H - 2 * pad) : 0);
+      return [x, y];
+    });
+    var path = pts.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" ");
+    var area = path + " L" + pts[n - 1][0].toFixed(1) + " " + (H - pad) + " L" + pts[0][0].toFixed(1) + " " + (H - pad) + " Z";
+    var dots = pts.map(function (p) { return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3" style="fill:var(--accent)"/>'; }).join("");
+    var labels = data.map(function (d, i) {
+      if (n > 10 && i % 2) return "";
+      return '<text x="' + pts[i][0].toFixed(1) + '" y="' + (H - 7) + '" font-size="9" style="fill:var(--text-soft)" text-anchor="middle">' + d.l + '</text>';
+    }).join("");
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-height:170px">'
+      + '<path d="' + area + '" style="fill:var(--accent);opacity:.10"/>'
+      + '<path d="' + path + '" style="fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round"/>'
+      + dots + labels + '</svg>';
+  }
+  function svgBars(items) {
+    var W = 640, rowH = 26, pad = 8, labelW = 150, barX = labelW + 8, maxBar = W - labelW - 70;
+    var H = items.length * rowH + pad * 2;
+    var maxV = Math.max.apply(null, items.map(function (d) { return d.v; }).concat([1]));
+    var rows = items.map(function (d, i) {
+      var y = pad + i * rowH;
+      var bw = maxV ? d.v / maxV * maxBar : 0;
+      return '<text x="0" y="' + (y + rowH / 2 + 4) + '" font-size="11" style="fill:var(--text)">' + esc(d.l.slice(0, 11)) + '</text>'
+        + '<rect x="' + barX + '" y="' + (y + 4) + '" width="' + bw.toFixed(1) + '" height="' + (rowH - 10) + '" rx="4" style="fill:var(--accent)"/>'
+        + '<text x="' + (barX + bw + 6) + '" y="' + (y + rowH / 2 + 4) + '" font-size="10" style="fill:var(--text-soft)">' + d.v + '</text>';
+    }).join("");
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%">' + rows + '</svg>';
   }
 
   /* ---------- CSV import ---------- */
@@ -1139,6 +1255,115 @@
     if (k) document.getElementById("apiKey").value = k;
   })();
 
+  /* ---------- Draft generator ---------- */
+  var DRAFT_COVER = {
+    "通用": ["对比图(使用前 vs 使用后) + 大字结论", "白底黑字清单体，关键数字标红", "场景实拍 + 箭头指出主角"],
+    "美妆": ["左脸瑕疵 vs 右脸效果对比 + 文字标签", "成分表截图 + 重点圈出", "上脸前后对比(自然光)"],
+    "家居": ["凌乱 vs 整洁对比 + 箭头指神器", "场景实拍，主角靠近镜头", "尺寸/用法标注图"],
+    "配饰": ["上身/佩戴实拍，靠近镜头", "平铺摆拍 + 风格标签", "多款对比图"],
+    "学生好物": ["宿舍实拍 before/after", "桌面改造对比", "平价清单白底字"],
+    "美食": ["成品特写(暖调) + 诱人描述", "制作过程步骤图", "分量对比(性价比)"],
+    "穿搭": ["全身搭配 + 显瘦标记", "单品平铺 + 价格标签", "OOTD 场景图"],
+    "其他": ["对比图 + 大字结论", "白底黑字清单体", "场景实拍"]
+  };
+  var DRAFT_TAGS = {
+    "通用": ["#好物推荐", "#平价好物", "#生活好物", "#2026必买", "#学生党"],
+    "美妆": ["#彩妆", "#平价彩妆", "#学生党彩妆", "#2026彩妆新品", "#化妆教程"],
+    "家居": ["#家居好物", "#租房必备", "#宿舍神器", "#收纳", "#2026家居好物"],
+    "配饰": ["#饰品", "#小众饰品", "#耳饰", "#穿搭配饰", "#平价饰品"],
+    "学生好物": ["#学生党", "#宿舍好物", "#平价好物", "#开学季", "#大一新生必看"],
+    "美食": ["#美食", "#美食教程", "#家常菜", "#减脂餐", "#吃货日常"],
+    "穿搭": ["#穿搭", "#显瘦穿搭", "#百元穿搭", "#OOTD", "#学生党穿搭"],
+    "其他": ["#好物推荐", "#平价好物", "#生活好物", "#2026必买", "#实用"]
+  };
+  var draftData = null;
+  function genTitles(topic) {
+    return [
+      "买" + topic + "前必看！踩过坑才敢说的大实话",
+      "入手" + topic + "一周，真香警告⚠️",
+      "别乱买！" + topic + "这样选才不踩雷"
+    ];
+  }
+  function genBody(topic) {
+    return [
+      "📌 最近一直在找好用的" + topic + "，试了好几款才锁定它。",
+      "😭 之前买的不是太贵就是不好用，踩了不少雷，真的会谢。",
+      "✅ 直到遇到这款" + topic + "：〔在这里填你的核心卖点，比如持妆8h / 收纳超能装〕，实测真的香。",
+      "🔗 链接放左下角啦～有问题评论区直接问我，看到就回💬"
+    ];
+  }
+  function generateDraft() {
+    var topic = document.getElementById("draftTopic").value.trim();
+    var cat = document.getElementById("draftCat").value;
+    if (!topic) { alert("先输入主题 / 商品名"); return; }
+    var covers = DRAFT_COVER[cat] || DRAFT_COVER["通用"];
+    var titles = genTitles(topic);
+    var body = genBody(topic);
+    var tags = DRAFT_TAGS[cat] || DRAFT_TAGS["通用"];
+    var html = '<div class="draft-block"><b>🖼️ 封面角度（选 1）</b><ul>' +
+      covers.map(function (c) { return "<li>" + esc(c) + "</li>"; }).join("") + "</ul></div>";
+    html += '<div class="draft-block"><b>📝 标题候选（选 1）</b><ol>' +
+      titles.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ol></div>";
+    html += '<div class="draft-block"><b>📄 正文（4 段式，〔〕内替换成你的卖点）</b><div class="draft-body">' +
+      body.map(function (b) { return "<p>" + esc(b) + "</p>"; }).join("") + "</div></div>";
+    html += '<div class="draft-block"><b>🏷️ 标签组合</b><div class="draft-tags">' +
+      tags.map(function (t) { return '<span class="tag todo">' + esc(t) + "</span>"; }).join("") + "</div></div>";
+    document.getElementById("draftOut").innerHTML = html;
+    document.getElementById("draftCopy").style.display = "";
+    draftData = { title: titles[0], body: body, tags: tags };
+  }
+  function copyText(txt) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () { alert("已复制，去小红书粘贴发布吧 📋"); }, function () { fallbackCopy(txt); });
+    } else fallbackCopy(txt);
+  }
+  function fallbackCopy(txt) {
+    var ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); alert("已复制，去小红书粘贴发布吧 📋"); } catch (e) { alert("复制失败，请手动选择文本复制"); }
+    document.body.removeChild(ta);
+  }
+  document.getElementById("draftGen").addEventListener("click", generateDraft);
+  document.getElementById("draftCopy").addEventListener("click", function () {
+    if (!draftData) return;
+    copyText(draftData.title + "\n\n" + draftData.body.join("\n") + "\n\n" + draftData.tags.join(" "));
+  });
+
+  /* ---------- Calendar ---------- */
+  var calY, calM;
+  function renderCalendar() {
+    var d = new Date();
+    if (calY === undefined) { calY = d.getFullYear(); calM = d.getMonth(); }
+    document.getElementById("calTitle").textContent = calY + "年" + (calM + 1) + "月";
+    var first = new Date(calY, calM, 1);
+    var startDay = (first.getDay() + 6) % 7;
+    var daysInMonth = new Date(calY, calM + 1, 0).getDate();
+    var cells = ["一", "二", "三", "四", "五", "六", "日"].map(function (w) { return '<div class="cal-wd">' + w + "</div>"; });
+    for (var i = 0; i < startDay; i++) cells.push('<div class="cal-cell empty"></div>');
+    for (var day = 1; day <= daysInMonth; day++) {
+      var ds = calY + "-" + pad(calM + 1) + "-" + pad(day);
+      var ns = D.notes.filter(function (n) { return (n.date || "").slice(0, 10) === ds; });
+      var cls = ns.length ? "cal-cell has" : "cal-cell";
+      if (ds === todayStr()) cls += " today";
+      var dots = ns.slice(0, 3).map(function (n) {
+        var c = n.status === "已发布" ? "pub" : n.status === "待发布" ? "ready" : "draft";
+        return '<span class="cal-dot ' + c + '"></span>';
+      }).join("");
+      var cnt = ns.length ? '<span class="cal-cnt">' + ns.length + "</span>" : "";
+      cells.push('<div class="' + cls + '" data-ds="' + ds + '"><div class="cal-num">' + day + "</div>" + cnt + '<div class="cal-dots">' + dots + "</div></div>");
+    }
+    document.getElementById("calGrid").innerHTML = cells.join("");
+  }
+  document.getElementById("calPrev").addEventListener("click", function () { calM--; if (calM < 0) { calM = 11; calY--; } renderCalendar(); });
+  document.getElementById("calNext").addEventListener("click", function () { calM++; if (calM > 11) { calM = 0; calY++; } renderCalendar(); });
+  document.getElementById("calToday").addEventListener("click", function () { var d = new Date(); calY = d.getFullYear(); calM = d.getMonth(); renderCalendar(); });
+  document.getElementById("calGrid").addEventListener("click", function (e) {
+    var cell = e.target.closest(".cal-cell"); if (!cell || !cell.getAttribute("data-ds")) return;
+    var ds = cell.getAttribute("data-ds");
+    var nd = document.getElementById("noteDate"); if (nd) nd.value = ds;
+    var nt = document.getElementById("noteTitle"); if (nt) { nt.focus(); nt.scrollIntoView({ behavior: "smooth", block: "center" }); }
+  });
+
   /* ---------- Utils ---------- */
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) {
     return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
@@ -1148,7 +1373,7 @@
     renderStats();
     renderTools();
     renderProducts(); renderNotes(); renderTitles(); renderEarnings();
-    renderBench(); renderRec(); renderInsights();
+    renderBench(); renderRec(); renderInsights(); renderCalendar();
   }
   boot();
 })();
